@@ -5,6 +5,16 @@ import (
 	"strings"
 )
 
+// Get get value for the specified path
+func Get(v interface{}, path string) Value {
+	return get(v, path, false)
+}
+
+// Get get value for the specified path, but case-insensitive
+func GetIgnoreCase(v interface{}, path string) Value {
+	return get(v, path, true)
+}
+
 type Map map[string]interface{}
 
 // Get get value for the specified path
