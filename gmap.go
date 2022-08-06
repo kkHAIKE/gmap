@@ -98,26 +98,28 @@ func get(v interface{}, path string, ignoreCase bool) Value {
 			return Value{}
 		}
 
+		var fnd bool
 		if smode {
 			if idx, err := strconv.Atoi(next.Index); err != nil || idx < 0 || idx >= len(s) {
 				return Value{}
 			} else {
 				v = s[idx]
+				fnd = true
 			}
 		} else {
-			var fnd bool
 			v, fnd = m[next.Index]
 			if !fnd && ignoreCase {
 				for k, vv := range m {
 					if strings.EqualFold(k, next.Index) {
 						v = vv
+						fnd = true
 						break
 					}
 				}
 			}
 		}
 		if !next.More {
-			return Value{Has: true, Raw: v}
+			return Value{Has: fnd, Raw: v}
 		}
 	}
 }

@@ -27,9 +27,13 @@ func TestValue(t *testing.T) {
 	vf64 := Value{Raw: float64(3)}
 	vnum := Value{Raw: json.Number("3")}
 	vstr := Value{Raw: string("3")}
+	vbytes := Value{Raw: []byte("3")}
 	vstrtp := Value{Raw: strType("3")}
 	vinttp := Value{Raw: intType(3)}
 	vuinttp := Value{Raw: uintType(3)}
+	vbool := Value{Raw: true}
+	vmap := Value{Raw: Map{"3": 3}}
+	vslice := Value{Raw: Slice{3}}
 
 	assert.True(t, vnil.IsNil())
 
@@ -78,6 +82,11 @@ func TestValue(t *testing.T) {
 	assert.Equal(t, float64(3), vnum.MustFloat())
 
 	assert.Equal(t, string("3"), vstr.MustString())
+	assert.Equal(t, string("3"), vbytes.MustString())
 	assert.Equal(t, string("3"), vnum.MustString())
 	assert.Equal(t, string("3"), vstrtp.MustString())
+
+	assert.Equal(t, true, vbool.MustBool())
+	assert.Equal(t, Map{"3": 3}, vmap.MustMap())
+	assert.Equal(t, Slice{3}, vslice.MustSlice())
 }
