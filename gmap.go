@@ -117,7 +117,7 @@ func get(v interface{}, path string, ignoreCase bool) Value {
 			}
 		}
 		if !next.More {
-			return Value{Raw: v}
+			return Value{Has: true, Raw: v}
 		}
 	}
 }

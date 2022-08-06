@@ -3,11 +3,14 @@ package gmap
 import (
 	"encoding/json"
 	"fmt"
+	"math"
 	"reflect"
 	"strconv"
 )
 
 type Value struct {
+	// check exists
+	Has bool
 	Raw interface{}
 }
 
@@ -19,8 +22,6 @@ func (v Value) Int() (int64, bool) {
 	switch t := v.Raw.(type) {
 	case nil:
 		return 0, false
-	case byte:
-		return int64(t), true
 	case int:
 		return int64(t), true
 	case int8:
@@ -31,12 +32,34 @@ func (v Value) Int() (int64, bool) {
 		return int64(t), true
 	case int64:
 		return t, true
-	case json.Number:
-		if r, err := t.Int64(); err != nil {
+	case uint:
+		return int64(t), true
+	case uint8:
+		return int64(t), true
+	case uint16:
+		return int64(t), true
+	case uint32:
+		return int64(t), true
+	case uint64:
+		if t > math.MaxInt64 {
 			return 0, false
-		} else {
+		}
+		return int64(t), true
+	case float32:
+		if r := int64(t); float32(r) == t {
 			return r, true
 		}
+		return 0, false
+	case float64:
+		if r := int64(t); float64(r) == t {
+			return r, true
+		}
+		return 0, false
+	case json.Number:
+		if r, err := t.Int64(); err == nil {
+			return r, true
+		}
+		return 0, false
 	}
 
 	rv := reflect.ValueOf(v.Raw)
@@ -59,6 +82,31 @@ func (v Value) Uint() (uint64, bool) {
 	switch t := v.Raw.(type) {
 	case nil:
 		return 0, false
+	case int:
+		if t < 0 {
+			return 0, false
+		}
+		return uint64(t), true
+	case int8:
+		if t < 0 {
+			return 0, false
+		}
+		return uint64(t), true
+	case int16:
+		if t < 0 {
+			return 0, false
+		}
+		return uint64(t), true
+	case int32:
+		if t < 0 {
+			return 0, false
+		}
+		return uint64(t), true
+	case int64:
+		if t < 0 {
+			return 0, false
+		}
+		return uint64(t), true
 	case uint:
 		return uint64(t), true
 	case uint8:
@@ -69,12 +117,21 @@ func (v Value) Uint() (uint64, bool) {
 		return uint64(t), true
 	case uint64:
 		return t, true
-	case json.Number:
-		if r, err := strconv.ParseUint(string(t), 10, 64); err != nil {
-			return 0, false
-		} else {
+	case float32:
+		if r := uint64(t); float32(r) == t {
 			return r, true
 		}
+		return 0, false
+	case float64:
+		if r := uint64(t); float64(r) == t {
+			return r, true
+		}
+		return 0, false
+	case json.Number:
+		if r, err := strconv.ParseUint(string(t), 10, 64); err == nil {
+			return r, true
+		}
+		return 0, false
 	}
 
 	rv := reflect.ValueOf(v.Raw)
@@ -97,10 +154,41 @@ func (v Value) Float() (float64, bool) {
 	switch t := v.Raw.(type) {
 	case nil:
 		return 0, false
+	case int:
+		return float64(t), true
+	case int8:
+		return float64(t), true
+	case int16:
+		return float64(t), true
+	case int32:
+		return float64(t), true
+	case int64:
+		if r := float64(t); int64(r) == t {
+			return r, true
+		}
+		return 0, false
+	case uint:
+		return float64(t), true
+	case uint8:
+		return float64(t), true
+	case uint16:
+		return float64(t), true
+	case uint32:
+		return float64(t), true
+	case uint64:
+		if r := float64(t); uint64(r) == t {
+			return r, true
+		}
+		return 0, false
 	case float32:
 		return float64(t), true
 	case float64:
 		return t, true
+	case json.Number:
+		if r, err := t.Float64(); err == nil {
+			return r, true
+		}
+		return 0, false
 	}
 
 	return 0, false
