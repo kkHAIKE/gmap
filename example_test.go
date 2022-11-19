@@ -20,6 +20,6 @@ func Example() {
 	_ = json.Unmarshal(data, &m)
 
 	m2 := gmap.GetIgnoreCase(m, "foo.0.bar")
-	fmt.Println(m2.MustMap().Get(`hello\.world.1`).MustInt())
+	fmt.Println(m2.MapDefaultZero().Get(`hello\.world.1`).IntDefaultZero())
 	// Output: 2
 }

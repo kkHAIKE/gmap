@@ -70,12 +70,16 @@ func (v Value) Int() (int64, bool) {
 	return 0, false
 }
 
-func (v Value) MustInt() int64 {
+func (v Value) IntDefault(def int64) int64 {
 	r, ok := v.Int()
 	if !ok {
-		panic(fmt.Sprintf("not int: %v", v.Raw))
+		return def
 	}
 	return r
+}
+
+func (v Value) IntDefaultZero() int64 {
+	return v.IntDefault(0)
 }
 
 func (v Value) Uint() (uint64, bool) {
@@ -142,12 +146,16 @@ func (v Value) Uint() (uint64, bool) {
 	return 0, false
 }
 
-func (v Value) MustUint() uint64 {
+func (v Value) UintDefault(def uint64) uint64 {
 	r, ok := v.Uint()
 	if !ok {
-		panic(fmt.Sprintf("not uint: %v", v.Raw))
+		return def
 	}
 	return r
+}
+
+func (v Value) UintDefaultZero() uint64 {
+	return v.UintDefault(0)
 }
 
 func (v Value) Float() (float64, bool) {
@@ -194,12 +202,16 @@ func (v Value) Float() (float64, bool) {
 	return 0, false
 }
 
-func (v Value) MustFloat() float64 {
+func (v Value) FloatDefault(def float64) float64 {
 	r, ok := v.Float()
 	if !ok {
-		panic(fmt.Sprintf("not float: %v", v.Raw))
+		return def
 	}
 	return r
+}
+
+func (v Value) FloatDefaultZero() float64 {
+	return v.FloatDefault(0)
 }
 
 func (v Value) String() (string, bool) {
@@ -222,12 +234,16 @@ func (v Value) String() (string, bool) {
 	return "", false
 }
 
-func (v Value) MustString() string {
+func (v Value) StringDefault(def string) string {
 	r, ok := v.String()
 	if !ok {
-		panic(fmt.Sprintf("not string: %v", v.Raw))
+		return def
 	}
 	return r
+}
+
+func (v Value) StringDefaultZero() string {
+	return v.StringDefault("")
 }
 
 func (v Value) Bool() (bool, bool) {
@@ -241,12 +257,16 @@ func (v Value) Bool() (bool, bool) {
 	return false, false
 }
 
-func (v Value) MustBool() bool {
+func (v Value) BoolDefault(def bool) bool {
 	r, ok := v.Bool()
 	if !ok {
-		panic(fmt.Sprintf("not bool: %v", v.Raw))
+		return def
 	}
 	return r
+}
+
+func (v Value) BoolDefaultZero() bool {
+	return v.BoolDefault(false)
 }
 
 func (v Value) Slice() (Slice, bool) {
@@ -262,12 +282,16 @@ func (v Value) Slice() (Slice, bool) {
 	return nil, false
 }
 
-func (v Value) MustSlice() Slice {
+func (v Value) SliceDefault(def Slice) Slice {
 	r, ok := v.Slice()
 	if !ok {
-		panic(fmt.Sprintf("not slice: %v", v.Raw))
+		return def
 	}
 	return r
+}
+
+func (v Value) SliceDefaultZero() Slice {
+	return v.SliceDefault(nil)
 }
 
 func (v Value) Map() (Map, bool) {
@@ -283,10 +307,14 @@ func (v Value) Map() (Map, bool) {
 	return nil, false
 }
 
-func (v Value) MustMap() Map {
+func (v Value) MapDefault(def Map) Map {
 	r, ok := v.Map()
 	if !ok {
-		panic(fmt.Sprintf("not map: %v", v.Raw))
+		return def
 	}
 	return r
+}
+
+func (v Value) MapDefaultZero() Map {
+	return v.MapDefault(nil)
 }
