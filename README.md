@@ -3,7 +3,7 @@
 
 This is a simple library that allows you to retrieve values from a `map[string]interface{}` or `[]interface{}` using a path
 
-It is similar to objx but simpler, and it includes support for case-insensitive keys.
+It is similar to [objx](https://github.com/stretchr/objx) but simpler, and it includes support for case-insensitive keys.
 
 # usage
 ```go
