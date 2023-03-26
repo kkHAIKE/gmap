@@ -1,9 +1,9 @@
 # gmap
 [![GoDoc](https://godoc.org/github.com/kkHAIKE/gmap?status.svg)](https://godoc.org/github.com/kkHAIKE/gmap)
 
-simple library for get value from map[string]interface{} or []interface{} use path.
+This is a simple library that allows you to retrieve values from a `map[string]interface{}` or `[]interface{}` using a path
 
-It's use like [objx](https://github.com/stretchr/objx) but more simple and add case-insensitive key support.
+It is similar to objx but simpler, and it includes support for case-insensitive keys.
 
 # usage
 ```go
